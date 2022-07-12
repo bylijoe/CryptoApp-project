@@ -12,7 +12,7 @@ env:
   python_version: 3.9
   # Variables used to configure
   REGISTRY: ghcr.io
-  REPOSITORY: bylijoe/CryptoApp-project
+  REPOSITORY: bylijoe/cryptoapp-project
 
 permissions:
   contents: write
