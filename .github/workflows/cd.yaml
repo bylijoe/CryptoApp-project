@@ -12,7 +12,7 @@ env:
   python_version: 3.9
   # Variables used to configure
   REGISTRY: ghcr.io
-  REPOSITORY: keepcodingclouddevops5/project-final-devops-leosilva
+  REPOSITORY: bylijoe/CryptoApp-project
 
 permissions:
   contents: write
