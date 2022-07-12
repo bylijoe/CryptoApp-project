@@ -1,0 +1,11 @@
+import os
+
+API_KEY='68E7B045-001D-4245-B962-B4073BCE773C'
+SECRET_KEY='Introduce-tu@clave!secreta'
+
+
+MYSQL_HOST=os.getenv("MYSQL_HOST")
+MYSQL_PORT=3306
+MYSQL_USER='kc_user'
+MYSQL_PASSWORD="password"
+MYSQL_DATABASE='movimientos'

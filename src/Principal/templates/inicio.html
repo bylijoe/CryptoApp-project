@@ -1,0 +1,85 @@
+{% extends "base.html"%}
+
+{% block head_title %}
+ MOVIMIENTOS
+{% endblock head_title %}
+
+{% block page_title %}
+  MOVIMIENTOS
+{% endblock page_title %}
+ 
+
+{% block contenido %}
+  {{ super()}}
+
+  <table role="grid" class="table-movimientos">
+
+    <tr>
+      <th class="tit-table">Fecha</th>
+      <th class="tit-table">Hora</th>
+      <th class="tit-table">From</th>
+      <th class="tit-table">Q</th>
+      <th class="tit-table">To</th>
+      <th class="tit-table">Q</th>
+      <th class="tit-table">P.U</th>
+      <th class="tit-table">Delete</th>
+    </tr>
+
+    {% if movs %}
+      {% for mov in movs %}
+        <tr>
+          <td>{{mov.date}}</td>
+          <td>{{mov.time}}</td>
+          <td>{{mov.from_currency}}</td>
+          <td>
+            {% if mov.from_quantity >=1 %}
+              {{"{:,.2f}".format(mov.from_quantity)}}
+            {% else %}
+              {{"{:.2f}".format(mov.from_quantity)}}
+            {% endif %}
+          </td>
+          <td>{{mov.to_currency}}</td>
+          <td>{{"{:,.2f}".format(mov.to_quantity)}}</td>
+          <td>
+            {% if mov.from_quantity/mov.to_quantity >=1 %}
+              {{"{:,.2f}".format(mov.from_quantity/mov.to_quantity)}}
+            {% else %}
+              {{"{:,.2f}".format(mov.from_quantity/mov.to_quantity)}}
+            {% endif %}
+          </td>
+          <td>
+            <a href="/borrar/{{mov.id}}">
+              <ion-icon name="trash-outline"></ion-icon>
+            </a>
+          </td>
+        </tr>
+        {% if mov.errores %}
+          <tr>
+            <td colspan="7" class="errores">
+                ERRORES:
+              {% for error in mov.errores %}
+                {{error}}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="7"class="lista-vacia">
+          SIN MOVIMIENTOS
+        </td>
+      </tr>
+    {% endif %}
+   </table>
+
+    <div class="acciones1">
+     <div class="b1_1">
+     <a href="/purchase/status" role="button" class="secondary">Status</a>
+     </div>
+     <div class="b1_2">
+     <a href="/purchase" role="button" class="secondary">Comprar</a>
+     </div>
+    </div>
+
+{% endblock contenido %}

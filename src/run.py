@@ -1,0 +1,2 @@
+from Principal import app
+

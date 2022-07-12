@@ -1,0 +1,55 @@
+{% extends "base.html"%}
+
+{% block head_title %}
+  COMPRA DE CRIPTOS 
+{% endblock head_title %}  
+
+{% block page_title %}
+  COMPRA DE CRIPTOS
+{% endblock page_title %}
+
+
+{% block contenido %}
+   {{super()}}
+   
+   <form method="POST" action="/purchase/">
+     {{ form.csrf_token }}   
+     {{form.id}}
+ 
+    <div class="lista_from">
+     {{form.from_currency.label}}
+     {{form.from_currency(class="selec1")}} 
+    </div>
+    
+    <div class="lista_to">
+     {{form.to_currency.label}}
+     {{form.to_currency(class="selec2")}}
+    </div>
+    
+    <div class="cantidad">
+     {{form.from_quantity.label}}
+     {{form.from_quantity (class="cantidadfrom", placeholder="Cantidad") }}
+    </div>
+      
+    <div class="indikdores">
+     <div class="quantity">
+     {{form.to_quantity.label}}
+     {{"{:,.6f}".format(cantidadCambiada) if cantidadCambiada}}
+     </div>
+     <div class="P_U">
+     {{form.P_U.label}}
+     {{"{:,.6f}".format(P_U) if P_U}}
+     </div>
+    </div>
+   
+    <div class="acciones2">
+     <div class="submit_calcular">
+     {{form.submit_calcular}}
+     </div>
+     <div class="submit_aceptar">
+     {{form.submit_aceptar}}
+     </div>
+    </div>                                              
+   </form>
+   
+{% endblock contenido %}

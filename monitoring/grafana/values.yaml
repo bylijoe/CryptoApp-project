@@ -1,0 +1,16 @@
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  hosts:
+    - grafana.34-159-87-142.nip.io
+
+datasources:
+ datasources.yaml:
+   apiVersion: 1
+   datasources:
+   - name: Prometheus
+     type: prometheus
+     url: prometheus-server:9090 
+     access: proxy
+     isDefault: true

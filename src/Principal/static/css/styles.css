@@ -1,0 +1,188 @@
+body {
+    background-color:floralwhite;
+}
+
+
+.header {
+    background-color:cadetblue;
+    color: azure;
+    height: 80px;
+    line-height: 60px;
+    padding: 10px;
+    font-size: 30px;
+    min-width: 20px;
+}
+
+nav {
+    background-color: darkgray;
+    margin-top: 0px;
+    font-size: 15px;
+    padding-left: 25px;
+    height: 20px;
+    line-height: 20px;
+}
+
+
+.main {
+   max-width: 950px; 
+   padding: 0 20px;
+  
+   
+}
+.table-movimientos {
+    width: 100%;
+       
+}
+
+.footer {
+    margin-top: 400px;
+    background-color :cadetblue;
+    color: azure;
+    padding: 10px;
+    position: static;
+    bottom: 0;
+    font-size: 15px;
+    
+}
+
+.tit-table {
+    border-bottom: solid 0.5px lightslategray; 
+    color: black;
+    text-align: center;
+}
+
+.table-movimientos td {
+    text-align: center;
+    width: 100%;
+ 
+}
+
+
+h1 {
+    text-align: center;
+    margin-top: 40px; 
+    font-size: 30px;
+    
+}
+
+.errores {
+    color: red;
+    padding-left: 5rem;
+    top:-5px;
+    font-size: small;
+    position:relative
+    
+}
+
+.lista-vacia {
+    text-align: center;
+    padding: 20px;
+}
+
+
+a:link, a:visited {
+    color:floralwhite  
+}
+
+a:hover {
+    color: white;
+}
+
+a:focus {
+    color:black
+}
+
+.botton-compra {
+    background-color:lightslategray;
+}
+
+.submit_calcular {
+    width: 100px;
+    
+}
+
+.submit_aceptar {
+    width: 100px;
+    padding-top: 20px;
+    
+}
+
+
+.selec1 {
+    background-color: darkgray;
+    width: 900px;
+
+}
+.selec2 {
+    background-color:darkgray;
+    width: 900px;
+    right: 200px;
+}
+
+.cantidadfrom { 
+    background-color: darkgrey;
+   
+}
+.cantidad {
+    width: 900px;
+}
+
+.selectores lista-to {
+    display:inline-block;
+  
+}
+
+.indikdores {
+   display: flex;
+      
+}
+
+.indikdores .quantity, .indikdores .P_U {
+    width: 350px;
+}
+
+.acciones2 {
+    display: inline-flex;
+}
+
+.acciones .submit_calcular, .submit_aceptar {
+   margin-right: 20px;
+   
+}
+
+.acciones2 .submit_aceptar {
+    margin-left: 250px;
+}
+
+.submit_calcular {
+    padding-top: 21px;
+    
+
+}   
+
+
+.acciones1 {
+    display: flex;
+}
+
+.acciones1 .b1_1 , .b1_2 {
+    margin-right: 610px;
+
+}
+.compra_ok {
+    font-size:3rem; 
+}
+
+.eliminado_correcto {
+     font-size: 3rem;
+}
+
+.eliminado_error {
+    font-size: 3rem;
+}
+
+.secondary {
+    margin-right: 80px;
+    padding-top: 10px;
+
+}

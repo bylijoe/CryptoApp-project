@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  app:
+    build: 
+      context: ../
+      dockerfile: ./Docker/Dockerfile
+    ports:
+    - 5000:5000
+    links:
+    - mysql-server
+    restart: always
+  mysql-server:
+    image: mysql:5.7
+    restart: always
+    environment:
+    - MYSQL_ROOT_PASSWORD=password
+    - MYSQL_USER=kc_user
+    - MYSQL_PASSWORD=password
+    - MYSQL_DATABASE=movimientos
+    ports:
+    - 32000:3306
+    volumes:
+    - /my-db:/var/lib/mysql
+    - "./docker/mysql/conf.d:/etc/mysql/conf.d"
+volumes:
+  my-db:     

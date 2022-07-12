@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+data:
+  host: mysql
+  port: "3306"
+  dbname: movimientos
+  init.sql: |
+    CREATE TABLE movimientos (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    date VARCHAR(45) NOT NULL,
+    time VARCHAR(45) NOT NULL,
+    from_currency VARCHAR(45) NOT NULL,
+    from_quantity REAL NOT NULL,
+    to_currency VARCHAR(45) NOT NULL,
+    to_quantity REAL NOT NULL,
+    PRIMARY KEY (id)); 
+    INSERT INTO movimientos VALUES (1,'2022-10-15','20:00','EUR',7.26, 'BTC', 1.0);
+    INSERT INTO movimientos VALUES (2,'2022-10-15','20:00','EUR',7.26, 'BTC', 1.0);
+    

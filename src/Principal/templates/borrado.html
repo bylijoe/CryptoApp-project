@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block head_title %}
+   Resultado del borrado
+{% endblock head_title %}  
+
+{% block page_title %}
+ {% if resultado %} 
+ <p class="eliminado_corecto"> Eliminado correctamente</p>
+ {% else %}
+ <p class="eliminado_error"> Error al eliminar</p>
+ {% endif %}  
+{% endblock page_title %}
+
+
+{% block contenido %}
+ {{super()}}
+{% endblock contenido %}

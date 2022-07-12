@@ -1,0 +1,60 @@
+{% extends "base.html"%}
+
+{% block head_title %}
+  STATUS
+{% endblock head_title %}  
+
+
+{% block page_title %}
+  ESTADO DE LA INVERSION 
+{% endblock page_title %}
+
+
+{% block contenido %}
+    {{super()}}
+
+
+    <h2 class="invertido">Invertido:  </h2>
+    <br><br>
+    <br><br>
+    <h2 class="valor actual">Valor actual:  </h2>
+     
+    <br><br>    
+   
+
+    
+    
+    <h1 align="center" class="cryptosaldo">SALDO CRIPTOMONEDAS</h1>
+    <table WIDTH="80%" class="cryptohead" align="center">
+        <thead>
+            <tr>
+                <th>&nbsp;&nbsp;&nbsp;&nbsp;EUR</th>
+                <th>&nbsp;BTC</th>
+                <th>ETH</th>
+                <th>USDT</th>
+                <th>ADA</th>
+                <th>SOL</th>
+                <th>XRP</th>
+                <th>DOT</th>
+                <th>DOGE</th>
+                <th>SHIB</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if not saldoAcumulado %}
+                <tr>
+                    <td class="title_sin"> SIN INVERSIÓN </td>
+                </tr>
+            {% else %}
+            <tr class="movimientos">
+                {% for moneda in saldoAcumulado %}
+                    <td>{{ "{:,.2f}".format(moneda) }}</td>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+
+
+<a href="/" role="button" class="secondary">Volver</a>
+    
+{% endblock %}

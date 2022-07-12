@@ -1,0 +1,142 @@
+name: 'Terraform'
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed ]
+    branches:
+      - main
+    paths: 
+      - 'infra/**'
+      - '.github/workflows/terraform.yaml'
+    
+
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID}}
+  GKE_EMAIL: ${{ secrets.GKE_EMAIL }}
+  PROJECT_CREDENTIAL: ${{ secrets.PROJECT_CREDENTIAL }}
+  PROJECT_REGION: ${{ secrets.PROJECT_REGION }}
+  
+
+jobs:
+
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash    
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+
+    - name: Checkout
+      uses: actions/checkout@v3  
+
+    - uses: google-github-actions/setup-gcloud@v0
+      with:
+        version: latest
+        project_id: ${{ secrets.PROJECT_ID}}
+        service_account: ${{ secrets.PROJECT_CREDENTIAL }}  
+   
+    - name: creations files
+      working-directory: infra
+      run: |
+        echo "$PROJECT_CREDENTIAL" > cred.json
+
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      id: fmt
+      working-directory: infra
+      run: terraform fmt -recursive -check
+      continue-on-error: true      
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      id: init
+      working-directory: infra
+      run: terraform init
+
+    - name: Terraform Validate
+      id: validate
+      working-directory: infra
+      run: terraform validate -no-color
+
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      if: github.event.pull_request.merged == false
+      id: plan
+      working-directory: infra
+      run: terraform plan -no-color -input=false
+    
+    - name: Update Pull Request with TF Plan
+      uses: actions/github-script@v6
+      if: github.event.pull_request.merged == false
+      env:
+        PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+          <details><summary>Show Plan</summary>
+
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
+
+      # On push to main, build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform Apply
+      id: apply
+      if: github.event.action == 'closed' && github.event.pull_request.merged == true
+      working-directory: infra
+      run: terraform apply -no-color -auto-approve -input=false
+
+    - name: Update Pull Request with TF Apply
+      uses: actions/github-script@v6
+      if: github.event.action == 'closed' && github.event.pull_request.merged == true
+      env:
+        PLAN: "terraform\n${{ steps.apply.outputs.stdout }}"
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+          #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+          #### Terraform Apply 📖\`${{ steps.apply.outcome }}\`
+          #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+          <details><summary>Show Apply</summary>
+
+          \`\`\`\n
+          ${process.env.PLAN}
+          \`\`\`
+
+          </details>
+
+          *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          })
